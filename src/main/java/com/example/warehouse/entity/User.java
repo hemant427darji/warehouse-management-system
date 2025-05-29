@@ -1,6 +1,7 @@
 package com.example.warehouse.entity;
 
 import com.example.warehouse.enums.UserRole;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -21,27 +22,27 @@ public class User {
 
     @GeneratedValue(strategy =GenerationType.UUID)
     @Id
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false, updatable = false)
     private String userId;
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "user_role")
+    @Column(name = "user_role", nullable = false, updatable = false)
     private UserRole userrole;
 
     @CreatedDate
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false,updatable = false)
     private Instant createdAt;
 
     @LastModifiedDate
-    @Column(name = "last_modified_at")
+    @Column(name = "last_modified_at", nullable = false)
     private Instant lastModifiedAt;
 
 }
