@@ -35,7 +35,7 @@ public class User {
     private String password;
 
     @Column(name = "user_role", nullable = false, updatable = false)
-    private UserRole userrole;
+    private UserRole userRole;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false,updatable = false)
