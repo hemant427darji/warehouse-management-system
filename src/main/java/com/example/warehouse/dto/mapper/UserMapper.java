@@ -13,12 +13,12 @@ public class UserMapper{
         target.setUsername(source.username());
         target.setEmail(source.email());
         target.setPassword(source.password());
-        target.setUserRole(UserRole.valueOf(source.userRoll()));//problem
+        target.setUserRole(UserRole.valueOf(source.userRole().toUpperCase()));//problem
         return target;
     }
 
     public UserResponse userToResponse(User user){
-        return new UserResponse(user.getUserId(),user.getUsername(),user.getEmail(),user.getUserRole().name(),user.getCreatedAt().toEpochMilli(),user.getLastModifiedAt().toEpochMilli());//problem
+        return new UserResponse(user.getUserId(),user.getUsername(),user.getEmail(),user.getUserRole().name(),user.getCreatedAt().toEpochMilli(),user.getLastModifiedAt().toEpochMilli());
     }
 
 

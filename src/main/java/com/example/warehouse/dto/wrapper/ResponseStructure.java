@@ -1,14 +1,15 @@
 package com.example.warehouse.dto.wrapper;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @Builder
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class ResponseStructure<T>{
-    int status;
-    String message;
-    T data;
+    private int status;
+    private String message;
+    private T data;
 }
