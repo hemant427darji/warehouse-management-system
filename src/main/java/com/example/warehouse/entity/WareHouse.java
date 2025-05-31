@@ -10,7 +10,6 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
-@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "warehouse")
 public class WareHouse {
@@ -20,6 +19,10 @@ public class WareHouse {
 
     @OneToMany(mappedBy = "warehouse")
     private List<Admin> admin;
+
+    @OneToMany(mappedBy = "warehouse")
+    private List<Room> room;
+
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id
     @Column(name = "warehouse_id", nullable = false, updatable = false)

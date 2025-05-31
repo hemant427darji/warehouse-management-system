@@ -31,12 +31,14 @@ public class WareHouseServiceImpl implements WareHouseService {
     public WareHouseResponse createWareHouse(WareHouseRequest wareHouseRequest, String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundByIdException("User Not Found By Id!!"));
         if (user instanceof Admin admin) {
-            WareHouse wareHouse = wareHouseMapper.toEntity(wareHouseRequest, new WareHouse());
-            admin.setWarehouse(wareHouse);
-            wareHouseRepository.save(wareHouse);
-            userRepository.save(admin);
-            return wareHouseMapper.toResponse(wareHouse);
-        } else
+            if (admin.getWarehouse() == null) {
+                WareHouse wareHouse = wareHouseMapper.toEntity(wareHouseRequest, new WareHouse());
+                admin.setWarehouse(wareHouse);
+                wareHouseRepository.save(wareHouse);
+                userRepository.save(admin);
+                return wareHouseMapper.toResponse(wareHouse);
+            }else throw new IllegalOperationException("Admin Already Has a Warehouse");
+        }else
             throw new IllegalOperationException("User Not AN Admin!!");
     }
 }

@@ -25,7 +25,6 @@ public class WareHouseController {
        WareHouseResponse wareHouseResponse = wareHouseService.createWareHouse(wareHouseRequest,userId);
        ResponseStructure<WareHouseResponse> responseStructure = new ResponseStructure<>(HttpStatus.CREATED.value(), "WareHouse Created Successfuly",wareHouseResponse);
        return new ResponseEntity<ResponseStructure<WareHouseResponse>>(responseStructure,HttpStatus.CREATED);
-
     }
 
 }
