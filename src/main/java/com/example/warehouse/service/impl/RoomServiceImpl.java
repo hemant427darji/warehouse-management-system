@@ -11,6 +11,7 @@ import com.example.warehouse.repository.WareHouseRepository;
 import com.example.warehouse.service.contract.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -24,6 +25,7 @@ public class RoomServiceImpl implements RoomService {
     @Autowired
     private RoomMapper roomMapper;
 
+    @Transactional
     @Override
     public RoomResponse createRoom(RoomRequest request, String warehouseId) {
        WareHouse wareHouse = wareHouseRepository.findById(warehouseId).orElseThrow(()->new WareHouseNotFindByIdException("WareHouse Not Find!!"));

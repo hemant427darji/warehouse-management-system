@@ -5,6 +5,8 @@ import lombok.Setter;
 import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.List;
+
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
 @Getter
@@ -12,7 +14,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name = "room")
 public class Room {
 
+    @OneToMany(mappedBy = "room")
+    private List<Block> block;
+
     @ManyToOne
+    @JoinColumn(name = "warehouse_id")
     private WareHouse warehouse;
 
     @Id

@@ -24,6 +24,14 @@ public class WareHouseMapper {
     }
 
     public WareHouseResponse toResponse(WareHouse wareHouse) {
-        return null;
+        if (wareHouse==null)
+            return null;
+        return new WareHouseResponse(
+                wareHouse.getWarehouseId(),
+                wareHouse.getName(),
+                wareHouse.getCity(),
+                wareHouse.getAddress(),
+                wareHouse.getLandmark()
+        );
     }
 }
