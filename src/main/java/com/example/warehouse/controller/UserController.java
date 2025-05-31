@@ -35,4 +35,10 @@ public class UserController {
         ResponseStructure<UserResponse> responseStructure = new ResponseStructure<>(HttpStatus.CREATED.value(), "User Find By Respected Id",userResponse);
         return new ResponseEntity<ResponseStructure<UserResponse>>(responseStructure,HttpStatus.CREATED);
     }
+    @DeleteMapping("/users/{userId}")
+    public ResponseEntity<ResponseStructure<UserResponse>> deleteUserById(@PathVariable String userId){
+        UserResponse userResponse = userService.deleteUserById(userId);
+        ResponseStructure<UserResponse> responseStructure = new ResponseStructure<>(HttpStatus.CREATED.value(), "User Deleted!!",userResponse);
+        return new ResponseEntity<ResponseStructure<UserResponse>>(responseStructure,HttpStatus.CREATED);
+    }
 }

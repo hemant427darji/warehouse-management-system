@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse addUser(UserRegistrationRequest urr) {
 
-            UserRole role = UserRole.valueOf(urr.userRole().toUpperCase());
+            UserRole role = urr.userRole();
             User user;
             if (role == UserRole.STAFF) {
                 user = userMapper.userToEntity(urr, new Staff());
@@ -47,5 +47,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse findUserById(String userId) {
         return userRepository.findById(userId).map(userMapper::userToResponse).orElseThrow(()->new UserNotFoundByIdException("User Not Found Based On Id!!"));
+    }
+
+    @Override
+    public UserResponse deleteUserById(String userId) {
+       User user = userRepository.findById(userId).orElseThrow(()->new UserNotFoundByIdException("UserId Not Found!!"));
+        userRepository.delete(user);
+        return userMapper.userToResponse(user);
     }
 }

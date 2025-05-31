@@ -11,4 +11,6 @@ public interface UserService {
     UserResponse updateUser(UserRequest request, String userId);
 
     UserResponse findUserById(String userId);
+
+    UserResponse deleteUserById(String userId);
 }
