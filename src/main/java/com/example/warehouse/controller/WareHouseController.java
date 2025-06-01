@@ -8,6 +8,7 @@ import com.example.warehouse.service.contract.WareHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +20,9 @@ public class WareHouseController {
     @Autowired
     private WareHouseService wareHouseService;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/warehouses/{userId}")
     public ResponseEntity<ResponseStructure<WareHouseResponse>> createWareHouse(@RequestBody WareHouseRequest wareHouseRequest, @PathVariable String userId){
-
        WareHouseResponse wareHouseResponse = wareHouseService.createWareHouse(wareHouseRequest,userId);
        ResponseStructure<WareHouseResponse> responseStructure = new ResponseStructure<>(HttpStatus.CREATED.value(), "WareHouse Created Successfuly",wareHouseResponse);
        return new ResponseEntity<ResponseStructure<WareHouseResponse>>(responseStructure,HttpStatus.CREATED);
