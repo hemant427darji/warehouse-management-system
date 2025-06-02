@@ -4,6 +4,7 @@ import com.example.warehouse.dto.request.UserRequest;
 import com.example.warehouse.dto.response.UserResponse;
 import com.example.warehouse.dto.wrapper.ResponseStructure;
 import com.example.warehouse.service.contract.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseStructure<UserResponse>> addUser(@RequestBody UserRegistrationRequest urr){
+    public ResponseEntity<ResponseStructure<UserResponse>> addUser(@RequestBody @Valid UserRegistrationRequest urr){
        UserResponse ur = userService.addUser(urr);
        ResponseStructure<UserResponse> responseStructure = new ResponseStructure(HttpStatus.CREATED.value(),"User Successfully Added Into the Database",ur);
        return new ResponseEntity<ResponseStructure<UserResponse>>(responseStructure,HttpStatus.CREATED);
