@@ -8,6 +8,7 @@ import com.example.warehouse.entity.Staff;
 import com.example.warehouse.entity.User;
 import com.example.warehouse.enums.UserRole;
 import com.example.warehouse.exceptions.UnSupportedUserRoleException;
+import com.example.warehouse.exceptions.UserAlreadyExistException;
 import com.example.warehouse.exceptions.UserNotFoundByIdException;
 import com.example.warehouse.exceptions.UserNotLoggedInException;
 import com.example.warehouse.repository.UserRepository;
@@ -31,15 +32,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse addUser(UserRegistrationRequest urr) {
             UserRole role = urr.userRole();
-            User user = switch (urr.userRole()){
-                case ADMIN -> userMapper.userToEntity(urr, new Admin());
-                case STAFF -> userMapper.userToEntity(urr, new Staff());
-                default -> throw new UnSupportedUserRoleException("Unsupported role: " + role);
-            };
-            String encodedPassword = passwordEncoder.encode(user.getPassword());
-            user.setPassword(encodedPassword);
-            userRepository.save(user);
-            return userMapper.userToResponse(user);
+            User u =userRepository.findByEmail(urr.email()).get();
+            if(u==null) {
+                User user = switch (urr.userRole()) {
+                    case ADMIN -> userMapper.userToEntity(urr, new Admin());
+                    case STAFF -> userMapper.userToEntity(urr, new Staff());
+                    default -> throw new UnSupportedUserRoleException("Unsupported role: " + role);
+                };
+                String encodedPassword = passwordEncoder.encode(user.getPassword());
+                user.setPassword(encodedPassword);
+                userRepository.save(user);
+                return userMapper.userToResponse(user);
+            }else throw new UserAlreadyExistException("Email already exist");
     }
     @Override
     public UserResponse updateUser(UserRequest request) {

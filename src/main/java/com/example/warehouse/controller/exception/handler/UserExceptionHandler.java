@@ -2,10 +2,7 @@ package com.example.warehouse.controller.exception.handler;
 
 import com.example.warehouse.dto.wrapper.ErrorResponse;
 import com.example.warehouse.dto.wrapper.ResponseStructure;
-import com.example.warehouse.exceptions.UnSupportedUserRoleException;
-import com.example.warehouse.exceptions.UserNotFoundByEmailException;
-import com.example.warehouse.exceptions.UserNotFoundByIdException;
-import com.example.warehouse.exceptions.UserNotLoggedInException;
+import com.example.warehouse.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -40,5 +37,9 @@ public class UserExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(),e.getMessage());
         return new ResponseEntity<ErrorResponse>(errorResponse,HttpStatus.NOT_FOUND);
     }
-
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExist(UserAlreadyExistException e){
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(),e.getMessage());
+        return new ResponseEntity<ErrorResponse>(errorResponse,HttpStatus.NOT_FOUND);
+    }
 }
