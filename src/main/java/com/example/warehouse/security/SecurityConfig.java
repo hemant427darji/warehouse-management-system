@@ -25,7 +25,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable());
 
         //authorization of endpoints as private and public
-        http.authorizeHttpRequests(auth-> auth.requestMatchers("/users")
+        http.authorizeHttpRequests(auth-> auth.requestMatchers("/register")
                 .permitAll()
                 .requestMatchers("/warehouses").hasAuthority(UserRole.ADMIN.name())
                 .anyRequest().authenticated());

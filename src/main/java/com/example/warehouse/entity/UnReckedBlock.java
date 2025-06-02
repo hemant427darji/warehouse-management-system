@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "recked")
-public class Recked extends Block{
+@Table(name = "un_recked_block")
+public class UnReckedBlock extends Block{
+
 }
