@@ -7,6 +7,7 @@ import java.util.List;
 public record InBoundShipmentRequest(
         String sellerId,
         ProductRequest productDetails,
-        InBoundStatus status
+        InBoundStatus status,
+        int quantity
 ) {
 }

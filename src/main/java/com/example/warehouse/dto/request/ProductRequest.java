@@ -1,6 +1,7 @@
 package com.example.warehouse.dto.request;
 
 public record ProductRequest(
+        String productId,
         String productTitle,
         double productWeight,
         double productLength,
@@ -8,7 +9,6 @@ public record ProductRequest(
         double productWidth,
         String materialType,
         String careInstruction,
-        int quantity,
         double productPrice
 ) {
 }

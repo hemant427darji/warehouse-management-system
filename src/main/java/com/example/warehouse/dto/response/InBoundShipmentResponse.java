@@ -4,9 +4,10 @@ import com.example.warehouse.enums.InBoundStatus;
 
 public record InBoundShipmentResponse(
         String shipmentId,
-        ProductResponse productResponse,
         String sellerId,
+        InBoundStatus status,
+        int quantity,
         long createdAt,
-        InBoundStatus status
+        ProductResponse productResponse
 ) {
 }

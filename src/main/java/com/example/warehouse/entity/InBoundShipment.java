@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import java.time.Instant;
 
 @Entity
@@ -22,33 +21,6 @@ public class InBoundShipment {
     @Column(name = "shipment_id", nullable = false, updatable = false)
     private String shipmentId;
 
-    @Column(name = "product_title", nullable = false, updatable = false)
-    private String productTile;
-
-    @Column(name = "product_weight")
-    private double productWeight;
-
-    @Column(name = "product_length")
-    private double productLength;
-
-    @Column(name = "product_height")
-    private double productHeight;
-
-    @Column(name = "product_width")
-    private double productWidth;
-
-    @Column(name = "material_type", nullable = false)
-    private String materialType;
-
-    @Column(name = "care_instruction", nullable = false, updatable = false, length = 2000)
-    private String careInstruction;
-
-    @Column(name = "quantity", nullable = false)
-    private int quantity;
-
-    @Column(name = "product_price", nullable = false)
-    private double productPrice;
-
     @Column(name = "seller_id", nullable = false, updatable = false)
     private String sellerId;
 
@@ -59,7 +31,14 @@ public class InBoundShipment {
     @Column(name = "status",nullable = false)
     private InBoundStatus status;
 
+    @Column(name = "quantity",nullable = false,updatable = false)
+    private int quantity;
+
     @ManyToOne
     @JoinColumn(name = "warehouse_id")
     private WareHouse warehouse;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 }

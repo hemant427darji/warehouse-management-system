@@ -1,14 +1,15 @@
 package com.example.warehouse.dto.response;
 
 public record ProductResponse(
-        String productTitle,
-        double productWeight,
-        double productLength,
-        double productHeight,
-        double productWidth,
+
+        String productId,
+        String title,
+        double weight,
+        double length,
+        double height,
+        double width,
         String materialType,
         String careInstruction,
-        int quantity,
-        double productPrice
+        double price
 ) {
 }
