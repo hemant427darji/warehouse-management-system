@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 public class RackMapper {
 
     public Rack toEntity(RackRequest source, Rack target){
+        target.setName(source.name());
         target.setHeight(source.height());
         target.setWidth(source.width());
         target.setBreath(source.breath());
@@ -18,6 +19,7 @@ public class RackMapper {
     public RackResponse toResponse(Rack rack){
         return new RackResponse(
                 rack.getRackId(),
+                rack.getName(),
                 rack.getHeight(),
                 rack.getWidth(),
                 rack.getBreath()

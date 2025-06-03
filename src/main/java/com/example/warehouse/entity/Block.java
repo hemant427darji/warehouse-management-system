@@ -21,6 +21,9 @@ public class Block {
     @Column(name = "block_id",nullable = false,updatable = false)
     private String blockId;
 
+    @Column(name = "name",nullable = false,updatable = false)
+    private String name;
+
     @Column(name = "height",nullable = false)
     private double height;
 

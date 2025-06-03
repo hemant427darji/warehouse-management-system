@@ -17,15 +17,18 @@ public class Rack {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "rack_id",nullable = false,updatable = false)
+    @Column(name = "rack_id", nullable = false, updatable = false)
     private String rackId;
 
-    @Column(name = "height",nullable = false,updatable = false)
+    @Column(name = "name", updatable = false, nullable = false)
+    private String name;
+
+    @Column(name = "height", nullable = false, updatable = false)
     private double height;
 
-    @Column(name = "width",nullable = false,updatable = false)
+    @Column(name = "width", nullable = false, updatable = false)
     private double width;
 
-    @Column(name = "breath",nullable = false,updatable = false)
+    @Column(name = "breath", nullable = false, updatable = false)
     private double breath;
 }

@@ -15,6 +15,7 @@ public class BlockMapper {
         if (target == null) {
             target = new Block();
         }
+        target.setName(source.name());
         target.setHeight(source.height());
         target.setLength(source.length());
         target.setBreath(source.breath());
@@ -28,6 +29,7 @@ public class BlockMapper {
         }
         return new BlockResponse(
             block.getBlockId(),
+            block.getName(),
             block.getHeight(),
             block.getLength(),
             block.getBreath(),
