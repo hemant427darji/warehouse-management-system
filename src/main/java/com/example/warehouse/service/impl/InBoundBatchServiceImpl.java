@@ -82,16 +82,13 @@ public class InBoundBatchServiceImpl implements InBoundBatchService {
         }
         return null;
     }
-
     @Transactional
     private List<ProductUnitResponse> updateUnitLoc(InventoryLocationUpdateRequest request, Block block, String suffix) {
         String location = "< " + block.getRoom().getRoomId() + " > ;" + "< " + block.getBlockId() + " > ; " + "< " + block.getType() + " > ; " + suffix;
-
 //        List<ProductUnit> units = productUnitRepository.findAllById(request.unitIds());
 //        units.forEach(unit -> unit.setLocation(location));
 //
 //        productUnitRepository.saveAll(units);
-
         List<ProductUnit> updated = productUnitRepository.findAllById(request.unitIds())
                 .stream()
                 .peek(unit -> unit.setLocation(location))
