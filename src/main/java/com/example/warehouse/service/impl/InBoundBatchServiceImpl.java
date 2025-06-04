@@ -11,10 +11,13 @@ import com.example.warehouse.exceptions.BlockNotFoundException;
 import com.example.warehouse.exceptions.ShipmentIdNotExistException;
 import com.example.warehouse.repository.*;
 import com.example.warehouse.service.contract.InBoundBatchService;
+import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import static com.example.warehouse.shared.QrCodeGenerator.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,4 +99,24 @@ public class InBoundBatchServiceImpl implements InBoundBatchService {
         productUnitRepository.saveAll(updated);
         return productUnitMapper.toResponse(updated);
     }
-}
+
+    @Override
+    public byte[] generateQrForProduct(String unitId){
+       ProductUnit unit = productUnitRepository.findById(unitId).orElseThrow();
+       String content = String.format(
+               """
+                    {
+                        "productId": "%s",
+                        "batchId": "%s",
+                        "unitId": "%s"
+                    }
+               """,unit.getProduct().getProductId(),unit.getBatch().getBatchId(),unit.getUnitId()
+       );
+       byte[] bytes = null;
+        try {
+           bytes = generateQrCode(content,200,200);
+           return bytes;
+        } catch (WriterException | IOException e) {
+            return bytes;
+        }
+    }

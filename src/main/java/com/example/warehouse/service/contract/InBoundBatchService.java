@@ -10,4 +10,6 @@ import java.util.List;
 public interface InBoundBatchService {
     InBoundBatchResponse receiveProductUnit(InBoundBatchRequest request, String shipmentId);
     List<ProductUnitResponse> updateInventoryLocation(InventoryLocationUpdateRequest request);
+
+    byte[] generateQrForProduct(String unitId);
 }
