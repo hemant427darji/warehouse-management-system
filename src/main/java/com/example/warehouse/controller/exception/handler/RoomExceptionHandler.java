@@ -16,10 +16,4 @@ public class RoomExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
         return new ResponseEntity<ErrorResponse>(errorResponse,HttpStatus.NOT_FOUND);
     }
-
-    @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleUnSupportedBlockType(UnSupportedBlockTypeException e){
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
-        return new ResponseEntity<ErrorResponse>(errorResponse,HttpStatus.NOT_FOUND);
-    }
 }

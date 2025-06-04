@@ -1,5 +1,6 @@
 package com.example.warehouse.security;
 import com.example.warehouse.enums.UserRole;
+import com.example.warehouse.security.filters.ClientAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,14 +23,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, ClientAuthFilter authFilter) throws Exception{
         http.csrf(csrf -> csrf.disable());
 
         //authorization of endpoints as private and public
-        http.authorizeHttpRequests(auth-> auth.requestMatchers("/register")
+        http.authorizeHttpRequests(auth-> auth.requestMatchers("/register","/client-register")
                 .permitAll()
                 .requestMatchers("/warehouses").hasAuthority(UserRole.ADMIN.name())
                 .anyRequest().authenticated());
+        http.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
 
         //type of authentication to user [HttBasic , FormLogin, AuthOLogin]
         http.formLogin(Customizer.withDefaults());

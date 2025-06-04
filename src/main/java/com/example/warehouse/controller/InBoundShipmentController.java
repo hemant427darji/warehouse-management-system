@@ -3,10 +3,12 @@ package com.example.warehouse.controller;
 import com.example.warehouse.dto.request.InBoundShipmentRequest;
 import com.example.warehouse.dto.response.InBoundShipmentResponse;
 import com.example.warehouse.dto.wrapper.ResponseStructure;
+import com.example.warehouse.enums.UserRole;
 import com.example.warehouse.service.contract.InBoundShipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +20,7 @@ public class InBoundShipmentController {
     @Autowired
     private InBoundShipmentService inBoundShipmentService;
 
+    @PreAuthorize("hasAuthority('CLIENT')")
     @PostMapping("/receive/shipment/{wareHouseId}")
     public ResponseEntity<ResponseStructure<InBoundShipmentResponse>> receiveProductInWareHouse(@RequestBody InBoundShipmentRequest request, @PathVariable String wareHouseId){
         System.out.println(request);
