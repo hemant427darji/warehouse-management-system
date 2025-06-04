@@ -80,11 +80,12 @@ public class InBoundBatchServiceImpl implements InBoundBatchService {
                 return updateUnitLoc(request, block, suffix);
             }
             case UNRECKED -> {
-               return updateUnitLoc(request, block, "");
+                return updateUnitLoc(request, block, "");
             }
         }
         return null;
     }
+
     @Transactional
     private List<ProductUnitResponse> updateUnitLoc(InventoryLocationUpdateRequest request, Block block, String suffix) {
         String location = "< " + block.getRoom().getRoomId() + " > ;" + "< " + block.getBlockId() + " > ; " + "< " + block.getType() + " > ; " + suffix;
@@ -101,22 +102,23 @@ public class InBoundBatchServiceImpl implements InBoundBatchService {
     }
 
     @Override
-    public byte[] generateQrForProduct(String unitId){
-       ProductUnit unit = productUnitRepository.findById(unitId).orElseThrow();
-       String content = String.format(
-               """
-                    {
-                        "productId": "%s",
-                        "batchId": "%s",
-                        "unitId": "%s"
-                    }
-               """,unit.getProduct().getProductId(),unit.getBatch().getBatchId(),unit.getUnitId()
-       );
-       byte[] bytes = null;
+    public byte[] generateQrForProduct(String unitId) {
+        ProductUnit unit = productUnitRepository.findById(unitId).orElseThrow();
+        String content = String.format(
+                """
+                             {
+                                 "productId": "%s",
+                                 "batchId": "%s",
+                                 "unitId": "%s"
+                             }
+                        """, unit.getProduct().getProductId(), unit.getBatch().getBatchId(), unit.getUnitId()
+        );
+        byte[] bytes = null;
         try {
-           bytes = generateQrCode(content,200,200);
-           return bytes;
+            bytes = generateQrCode(content, 200, 200);
+            return bytes;
         } catch (WriterException | IOException e) {
             return bytes;
         }
     }
+}
