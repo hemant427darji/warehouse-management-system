@@ -9,8 +9,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,34 +19,43 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
-@Getter
-@AllArgsConstructor
 @Component
 public class ClientAuthFilter extends OncePerRequestFilter {
-    
+
     private final ClientRepository clientRepository;
-    
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public ClientAuthFilter(ClientRepository clientRepository, PasswordEncoder passwordEncoder) {
+        this.clientRepository = clientRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     private static final String X_API_KEY = "X-Api-Key";
-    private static final String X_SECRET_KEY ="X-Secret-Key";
-    private PasswordEncoder passwordEncoder;
+    private static final String X_SECRET_KEY = "X-Secret-Key";
 
-    
     @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String apiKey = request.getHeader(X_API_KEY);
         String secretKey = request.getHeader(X_SECRET_KEY);
-       
-       if(isValid(apiKey) && isValid(secretKey)){
-         Client client = clientRepository.findByApiKey(apiKey).orElseThrow(()->new ClientNotFoundByApiKeyException("Client Not Found!!"));
-         boolean doesMatch =  passwordEncoder.matches(secretKey,client.getSecretKey());
 
-         if(doesMatch && AuthUtilities.getAuthentication().isEmpty()){
-             final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(client.getOrganizationName(), null, List.of(new SimpleGrantedAuthority(UserRole.CLIENT.name())));
-             AuthUtilities.setAuthentication(token);
-         }
-       }
-       filterChain.doFilter(request,response);
+        if (isValid(apiKey) && isValid(secretKey)) {
+            Client client = clientRepository.findByApiKey(apiKey)
+                    .orElseThrow(() -> new ClientNotFoundByApiKeyException("Client Not Found!!"));
+
+            boolean doesMatch = passwordEncoder.matches(secretKey, client.getSecretKey());
+
+            if (doesMatch && AuthUtilities.getAuthentication().isEmpty()) {
+                final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                        client.getOrganizationName(), null, List.of(new SimpleGrantedAuthority(UserRole.CLIENT.name()))
+                );
+                AuthUtilities.setAuthentication(token);
+            }
+        }
+
+        filterChain.doFilter(request, response);
     }
 
     private static boolean isValid(String s) {
